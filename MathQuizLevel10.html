@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Quiz</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+            margin: 0;
+        }
+        .quiz-container {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            font-size: 3rem;
+        }
+        .question {
+            font-size: 2rem;
+            margin: 10px 0;
+        }
+        input {
+            font-size: 2rem;
+            width: 150px;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            font-size: 2rem;
+            color: #fff;
+            background-color: #4caf50;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .result, .feedback {
+            font-size: 2rem;
+            margin-top: 20px;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            color: #555;
+        }
+        .logo {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <img src="logo.png" alt="Logo" class="logo">
+        <h1>Math Quiz</h1>
+        <div class="question" id="question"></div>
+        <input type="number" id="answer" required>
+        <button class="submit-btn" onclick="checkAnswer()">Submit</button>
+        <div class="feedback" id="feedback"></div>
+        <div class="result" id="result"></div>
+    </div>
+    <footer>
+        anandasagara.org
+    </footer>
+
+    <script>
+        const generateTwoOrThreeDigitNumber = () => {
+            return Math.floor(Math.random() * 900) + 100; // generate three-digit number (100 to 999)
+        };
+
+        const generateSingleOrTwoDigitNumber = () => {
+            return Math.floor(Math.random() * 90) + 10; // generate two-digit number (10 to 99)
+        };
+
+        const generateDivisionProblems = (count) => {
+            let problems = [];
+            for (let i = 0; i < count; i++) {
+                let a = generateTwoOrThreeDigitNumber();
+                let b = generateSingleOrTwoDigitNumber();
+                while (b === 0) {
+                    b = generateSingleOrTwoDigitNumber();
+                }
+                let product = a * b; // Ensuring a is divisible by b
+                problems.push({ a: product, b });
+            }
+            return problems;
+        };
+
+        const divisionProblems = generateDivisionProblems(20);
+
+        const allProblems = divisionProblems;
+        let currentProblemIndex = 0;
+        let score = 0;
+
+        function displayProblem() {
+            const problem = allProblems[currentProblemIndex];
+            const questionElement = document.getElementById('question');
+            questionElement.innerHTML = `${problem.a} ÷ ${problem.b}`;
+            document.getElementById('feedback').textContent = '';
+        }
+
+        function checkAnswer() {
+            const problem = allProblems[currentProblemIndex];
+            const userAnswer = parseInt(document.getElementById('answer').value);
+            const correctAnswer = problem.a / problem.b;
+
+            const feedbackElement = document.getElementById('feedback');
+            if (userAnswer === correctAnswer) {
+                score++;
+                feedbackElement.textContent = 'Correct!';
+                currentProblemIndex++;
+                if (currentProblemIndex < allProblems.length) {
+                    displayProblem();
+                } else {
+                    document.getElementById('question').textContent = '';
+                    document.getElementById('answer').style.display = 'none';
+                    document.querySelector('.submit-btn').style.display = 'none';
+                    document.getElementById('result').textContent = `You scored ${score} out of ${allProblems.length}!`;
+                }
+            } else {
+                feedbackElement.textContent = 'Incorrect, please try again.';
+            }
+
+            document.getElementById('answer').value = '';
+            document.getElementById('answer').focus();
+        }
+
+        window.onload = displayProblem;
+    </script>
+</body>
+</html>

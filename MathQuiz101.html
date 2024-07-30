@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Quiz</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+            margin: 0;
+        }
+        .quiz-container {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 3rem;
+        }
+        .question {
+            font-size: 2rem;
+            margin: 10px 0;
+        }
+        input {
+            font-size: 2rem;
+            width: 100px;
+            padding: 5px;
+            margin-left: 10px;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            font-size: 2rem;
+            color: #fff;
+            background-color: #4caf50;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .result {
+            font-size: 2rem;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Math Quiz</h1>
+        <form id="quizForm">
+            <!-- Questions will be inserted here by JavaScript -->
+        </form>
+        <button class="submit-btn" onclick="checkAnswers()">Submit</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const quizForm = document.getElementById('quizForm');
+        const resultDiv = document.getElementById('result');
+
+        const additionProblems = [
+            {a: 56, b: 34}, {a: 123, b: 456}, {a: 789, b: 321}, {a: 2345, b: 5678}, {a: 4567, b: 1234},
+            {a: 678, b: 123}, {a: 890, b: 678}, {a: 1234, b: 4321}, {a: 234, b: 567}, {a: 7890, b: 1234}
+        ];
+
+        const subtractionProblems = [
+            {a: 98, b: 34}, {a: 1234, b: 567}, {a: 876, b: 543}, {a: 2345, b: 1234}, {a: 4567, b: 3456},
+            {a: 678, b: 123}, {a: 890, b: 678}, {a: 4321, b: 1234}, {a: 567, b: 234}, {a: 7890, b: 4567}
+        ];
+
+        function loadQuestions() {
+            additionProblems.forEach((problem, index) => {
+                quizForm.innerHTML += `
+                    <div class="question">
+                        ${index + 1}. ${problem.a} + ${problem.b} = 
+                        <input type="number" id="add-${index}" required>
+                    </div>
+                `;
+            });
+
+            subtractionProblems.forEach((problem, index) => {
+                quizForm.innerHTML += `
+                    <div class="question">
+                        ${additionProblems.length + index + 1}. ${problem.a} - ${problem.b} = 
+                        <input type="number" id="sub-${index}" required>
+                    </div>
+                `;
+            });
+        }
+
+        function checkAnswers() {
+            let score = 0;
+
+            additionProblems.forEach((problem, index) => {
+                const userAnswer = parseInt(document.getElementById(`add-${index}`).value);
+                if (userAnswer === (problem.a + problem.b)) {
+                    score++;
+                }
+            });
+
+            subtractionProblems.forEach((problem, index) => {
+                const userAnswer = parseInt(document.getElementById(`sub-${index}`).value);
+                if (userAnswer === (problem.a - problem.b)) {
+                    score++;
+                }
+            });
+
+            resultDiv.innerText = `You scored ${score} out of ${additionProblems.length + subtractionProblems.length}!`;
+        }
+
+        loadQuestions();
+    </script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 2 Math Quiz</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+    .container {
+        margin: auto;
+        max-width: 600px;
+        padding: 20px;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+    }
+    h1 {
+        color: #333;
+    }
+    .problem {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    input[type="number"] {
+        padding: 8px;
+        font-size: 18px;
+        width: 100px;
+        text-align: center;
+        margin: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    .score {
+        font-size: 20px;
+        margin-top: 20px;
+    }
+    .footer {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Level 2 Math Quiz</h1>
+    <div class="problem" id="problem"></div>
+    <input type="number" id="answer" placeholder="Enter your answer" required>
+    <button onclick="checkAnswer()">Submit</button>
+    <div class="score" id="score"></div>
+    <div class="footer">
+        Powered by AnandaSagara.org
+    </div>
+</div>
+
+<script>
+    // Define variables
+    let score = 0;
+    let currentProblem = 1;
+    const problems = [
+        { question: "23 + 14 - 5", answer: 32 },
+        { question: "45 - 19 + 8", answer: 34 },
+        { question: "37 + 26 - 11", answer: 52 },
+        { question: "58 - 23 + 15", answer: 50 },
+        { question: "31 + 17 - 9", answer: 39 }
+    ];
+
+    // Display initial problem
+    displayProblem();
+
+    // Function to display problem
+    function displayProblem() {
+        document.getElementById('problem').innerHTML = problems[currentProblem - 1].question;
+        document.getElementById('answer').value = '';
+        document.getElementById('answer').focus();
+    }
+
+    // Function to check answer
+    function checkAnswer() {
+        let userAnswer = parseInt(document.getElementById('answer').value);
+        if (!isNaN(userAnswer)) {
+            if (userAnswer === problems[currentProblem - 1].answer) {
+                score++;
+                document.getElementById('score').innerHTML = `Correct! Score: ${score}`;
+                currentProblem++;
+                if (currentProblem <= problems.length) {
+                    displayProblem();
+                } else {
+                    document.getElementById('problem').innerHTML = 'Quiz complete!';
+                    document.getElementById('answer').style.display = 'none';
+                    document.querySelector('button').style.display = 'none';
+                }
+            } else {
+                document.getElementById('score').innerHTML = `Wrong! Score: ${score}`;
+            }
+        } else {
+            alert('Please enter a valid number.');
+        }
+    }
+</script>
+</body>
+</html>
