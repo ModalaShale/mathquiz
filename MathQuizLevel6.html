@@ -149,14 +149,17 @@
                 currentProblemIndex++;
                 if (currentProblemIndex < allProblems.length) {
                     displayProblem();
+		    speakVoice('correct.wav');
                 } else {
                     document.getElementById('question').textContent = '';
                     document.getElementById('answer').style.display = 'none';
                     document.querySelector('.submit-btn').style.display = 'none';
                     document.getElementById('result').textContent = `You scored ${score} out of ${allProblems.length}!`;
+		    speakVoice('pass6.wav');
                 }
             } else {
                 feedbackElement.textContent = 'Incorrect, please try again.';
+		    speakVoice('incorrect.wav');
             }
 
             document.getElementById('answer').value = '';
@@ -165,5 +168,6 @@
 
         window.onload = displayProblem;
     </script>
+    <script src="ecdspeak.js"></script>
 </body>
 </html>

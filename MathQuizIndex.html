@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modala Shale Math Quiz</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', cursive;
+            background-color: #0a0a1a;
+            color: #fff;
+            overflow: auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: radial-gradient(circle at 50% 50%, #1a1a3a 0%, #0a0a1a 100%);
+        }
+        
+        .header {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-bottom: 3px solid #ff6b00;
+        }
+        
+        .logo {
+            height: 60px;
+        }
+        
+        .dashboard-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .quiz-title {
+            font-size: 36px;
+            color: #ffcc00;
+            margin: 20px 0;
+            text-shadow: 0 0 15px rgba(255, 204, 0, 0.7);
+            text-align: center;
+        }
+        
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            width: 95%;
+            max-width: 1000px;
+            margin: 20px 0;
+        }
+        
+        .level-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 3px solid #ff9e00;
+            transition: all 0.3s ease;
+        }
+        
+        .level-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.4);
+        }
+        
+        .level-btn {
+            width: 100%;
+            height: 150px;
+            border-radius: 15px;
+            background: linear-gradient(145deg, #ff6b00, #ffcc00);
+            border: none;
+            color: white;
+            font-size: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(255, 107, 0, 0.6);
+            transition: all 0.2s;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+            border: 3px solid white;
+        }
+        
+        .level-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 25px rgba(255, 107, 0, 0.8);
+        }
+        
+        .level-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .level-icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+        
+        .level-difficulty {
+            font-size: 16px;
+            margin-top: 10px;
+            color: #fff;
+            opacity: 0.8;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 20px;
+            color: #ffcc00;
+            text-shadow: 0 0 15px rgba(255, 204, 0, 0.7);
+            font-family: 'Comic Sans MS', cursive;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
+        
+        .title {
+            margin-left: 20px;
+            font-size: 28px;
+            color: #ff6b00;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            animation: float-up 15s linear infinite;
+            opacity: 0.7;
+        }
+        
+        @keyframes float-up {
+            0% { transform: translateY(100%) rotate(0deg); }
+            100% { transform: translateY(-100%) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="floating-shapes" id="floatingShapes"></div>
+    
+    <div class="header">
+        <img src="logo.png" alt="Modala Shale Math Quiz Logo" class="logo">
+        <div class="title">Modala Shale Math Quiz</div>
+    </div>
+    
+    <div class="dashboard-container">
+        <h1 class="quiz-title">Choose Your Math Challenge!</h1>
+        
+        <div class="levels-grid">
+            <!-- Level 1 -->
+            <div class="level-card">
+                <button class="level-btn" onclick="window.location.href='MathQuizLevel1.html'">
+                    <span class="level-icon">1</span>
+                    Level 1
+                    <span class="level-difficulty">Beginner</span>
+                </button>
+            </div>
+            
+            <!-- Level 2 -->
+            <div class="level-card">
+                <button class="level-btn" onclick="window.location.href='MathQuizLevel2.html'">
+                    <span class="level-icon">2</span>
+                    Level 2
+                    <span class="level-difficulty">Easy</span>
+                </button>
+            </div>
+            
+            <!-- Level 3 -->
+            <div class="level-card">
+                <button class="level-btn" onclick="window.location.href='MathQuizLevel3.html'">
+                    <span class="level-icon">3</span>
+                    Level 3
+                    <span class="level-difficulty">Easy+</span>
+                </button>
+            </div>
+            
+            <!-- Level 4 -->
+            <div class="level-card">
+                <button class="level-btn" onclick="window.location.href='MathQuizLevel4.html'">
+                    <span class="level-icon">4</span>
+                    Level 4
+                    <span class="level-difficulty">Intermediate</span>
+                </button>
+            </div>
+            
+            <!-- Level 5 -->
+            <div class="level-card">
+                <button class="level-btn" onclick="window.location.href='MathQuizLevel5.html'">
+                    <span class="level-icon">5</span>
+                    Level 5
+                    <span class="level-difficulty">Intermediate+</span>
+                </button>
+            </div>
+            
+            <!-- Level 6 -->
+            <div class="level-card">
+                <button class="level-btn" onclick="window.location.href='MathQuizLevel6.html'">
+                    <span class="level-icon">6</span>
+                    Level 6
+                    <span class="level-difficulty">Advanced</span>
+                </button>
+            </div>
+            
+            <!-- Level 7 -->
+            <div class="level-card">
+                <button class="level-btn" onclick="window.location.href='MathQuizLevel7.html'">
+                    <span class="level-icon">7</span>
+                    Level 7
+                    <span class="level-difficulty">Advanced+</span>
+                </button>
+            </div>
+            
+            <!-- Level 8 -->
+            <div class="level-card">
+                <button class="level-btn" onclick="window.location.href='MathQuizLevel8.html'">
+                    <span class="level-icon">8</span>
+                    Level 8
+                    <span class="level-difficulty">Expert</span>
+                </button>
+            </div>
+            
+            <!-- Level 9 -->
+            <div class="level-card">
+                <button class="level-btn" onclick="window.location.href='MathQuizLevel9.html'">
+                    <span class="level-icon">9</span>
+                    Level 9
+                    <span class="level-difficulty">Master</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        anandasagara.org
+    </div>
+    
+    <script>
+        // Create stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 150; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = `${Math.random() * 4 + 2}px`;
+            star.style.height = star.style.width;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 3}s`;
+            star.style.opacity = Math.random() * 0.7 + 0.3;
+            starsContainer.appendChild(star);
+        }
+        
+        // Create floating shapes
+        const colors = ['#ff6b00', '#ffcc00', '#ffffff', '#ff9e00'];
+        const shapesContainer = document.getElementById('floatingShapes');
+        for (let i = 0; i < 15; i++) {
+            const shape = document.createElement('div');
+            shape.className = 'shape';
+            shape.style.width = `${Math.random() * 30 + 10}px`;
+            shape.style.height = shape.style.width;
+            shape.style.left = `${Math.random() * 100}%`;
+            shape.style.background = colors[Math.floor(Math.random() * colors.length)];
+            shape.style.animationDuration = `${Math.random() * 10 + 10}s`;
+            shape.style.animationDelay = `${Math.random() * 5}s`;
+            shapesContainer.appendChild(shape);
+        }
+        
+        // Create floating shapes periodically
+        setInterval(() => {
+            const shape = document.createElement('div');
+            shape.className = 'shape';
+            shape.style.width = `${Math.random() * 30 + 10}px`;
+            shape.style.height = shape.style.width;
+            shape.style.left = `${Math.random() * 100}%`;
+            shape.style.background = colors[Math.floor(Math.random() * colors.length)];
+            shape.style.animationDuration = `${Math.random() * 10 + 10}s`;
+            shapesContainer.appendChild(shape);
+            
+            // Remove shape after animation completes
+            setTimeout(() => {
+                shape.remove();
+            }, 15000);
+        }, 1000);
+    </script>
+</body>
+</html>

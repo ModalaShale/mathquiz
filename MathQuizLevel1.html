@@ -12,14 +12,14 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f8ff;
+            background-color: #013665;
             margin: 0;
         }
         .quiz-container {
-            background-color: #fff;
+            background-color: #f4b115;
             border-radius: 15px;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0,12,6);
             width: 80%;
             max-width: 600px;
             text-align: center;
@@ -44,14 +44,14 @@
             padding: 15px;
             font-size: 2rem;
             color: #fff;
-            background-color: #4caf50;
+            background-color: #000c3d;
             border: none;
             border-radius: 10px;
             cursor: pointer;
             margin-top: 20px;
         }
         .submit-btn:hover {
-            background-color: #45a049;
+            background-color: #013665;
         }
         .result, .feedback {
             font-size: 2rem;
@@ -60,7 +60,7 @@
         footer {
             margin-top: 20px;
             font-size: 1.5rem;
-            color: #555;
+            color: #fff;
         }
         .logo {
             width: 100px;
@@ -80,6 +80,7 @@
     </div>
     <footer>
         anandasagara.org
+        
     </footer>
 
     <script>
@@ -135,21 +136,26 @@
                 currentProblemIndex++;
                 if (currentProblemIndex < allProblems.length) {
                     displayProblem();
+		    speakVoice('correct.wav');
                 } else {
                     document.getElementById('question').textContent = '';
                     document.getElementById('answer').style.display = 'none';
                     document.querySelector('.submit-btn').style.display = 'none';
                     document.getElementById('result').textContent = `You scored ${score} out of ${allProblems.length}!`;
+		    speakVoice('pass1.wav');
                 }
             } else {
                 feedbackElement.textContent = 'Incorrect, please try again.';
+		    speakVoice('incorrect.wav');
             }
 
             document.getElementById('answer').value = '';
             document.getElementById('answer').focus();
         }
 
+
         window.onload = displayProblem;
     </script>
+    <script src="ecdspeak.js"></script>
 </body>
 </html>

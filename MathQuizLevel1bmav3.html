@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math Quiz</title>
+    <title>Math Quiz: Before, Between, After</title>
     <style>
         body {
             font-family: 'Comic Sans MS', cursive, sans-serif;
@@ -34,9 +34,10 @@
         }
         input {
             font-size: 2rem;
-            width: 150px;
+            width: 60px;
             padding: 10px;
-            margin-top: 20px;
+            margin: 0 10px;
+            text-align: center;
         }
         .submit-btn {
             display: block;
@@ -71,9 +72,13 @@
 <body>
     <div class="quiz-container">
         <img src="logo.png" alt="Logo" class="logo">
-        <h1>Math Quiz</h1>
+        <h1>Math Quiz: Before, Between, After</h1>
         <div class="question" id="question"></div>
-        <input type="number" id="answer" required>
+        <div>
+            <input type="number" id="number1" disabled>
+            <input type="number" id="answer" required>
+            <input type="number" id="number2" disabled>
+        </div>
         <button class="submit-btn" onclick="checkAnswer()">Submit</button>
         <div class="feedback" id="feedback"></div>
         <div class="result" id="result"></div>
@@ -83,64 +88,63 @@
     </footer>
 
     <script>
-        const generateSingleDigitNumber = () => {
-            return Math.floor(Math.random() * 10); // generate single-digit number (0 to 9)
-        };
-
-        const generateProblems = (count, operation) => {
+        const generateProblems = (count) => {
             let problems = [];
             for (let i = 0; i < count; i++) {
-                let a = generateSingleDigitNumber();
-                let b = generateSingleDigitNumber();
-                problems.push({ a, b });
+                let a = Math.floor(Math.random() * 10);
+                let type = Math.floor(Math.random() * 3); // 0 for before, 1 for between, 2 for after
+                let problem;
+                if (type === 0) {
+                    problem = { numbers: [``, a], answer: a - 1 };
+                } else if (type === 1) {
+                    problem = { numbers: [a, ``], answer: a + 1 };
+                } else {
+                    problem = { numbers: [a, ``], answer: a + 1 };
+                }
+                problems.push(problem);
             }
             return problems;
         };
 
-        const multiplicationProblems = generateProblems(20, 'mul');
-
-        const allProblems = multiplicationProblems;
+        const problems = generateProblems(10);
         let currentProblemIndex = 0;
         let score = 0;
 
         function displayProblem() {
-            const problem = allProblems[currentProblemIndex];
-            const questionElement = document.getElementById('question');
-            questionElement.innerHTML = `${problem.a} × ${problem.b}`;
+            const problem = problems[currentProblemIndex];
+            document.getElementById('number1').value = problem.numbers[0] || '';
+            document.getElementById('answer').value = '';
+            document.getElementById('number2').value = problem.numbers[1] || '';
+            document.getElementById('answer').focus();
             document.getElementById('feedback').textContent = '';
         }
 
         function checkAnswer() {
-            const problem = allProblems[currentProblemIndex];
+            const problem = problems[currentProblemIndex];
             const userAnswer = parseInt(document.getElementById('answer').value);
-            const correctAnswer = problem.a * problem.b;
-
             const feedbackElement = document.getElementById('feedback');
-            if (userAnswer === correctAnswer) {
+            
+            if (userAnswer === problem.answer) {
                 score++;
                 feedbackElement.textContent = 'Correct!';
-                currentProblemIndex++;
-                if (currentProblemIndex < allProblems.length) {
-                    displayProblem();
-		    speakVoice('correct.wav');
-                } else {
-                    document.getElementById('question').textContent = '';
-                    document.getElementById('answer').style.display = 'none';
-                    document.querySelector('.submit-btn').style.display = 'none';
-                    document.getElementById('result').textContent = `You scored ${score} out of ${allProblems.length}!`;
-		    speakVoice('pass7.wav');
-                }
             } else {
                 feedbackElement.textContent = 'Incorrect, please try again.';
-		    speakVoice('incorrect.wav');
             }
 
-            document.getElementById('answer').value = '';
-            document.getElementById('answer').focus();
+            currentProblemIndex++;
+            if (currentProblemIndex < problems.length) {
+                displayProblem();
+            } else {
+                document.getElementById('question').textContent = '';
+                document.getElementById('number1').style.display = 'none';
+                document.getElementById('answer').style.display = 'none';
+                document.getElementById('number2').style.display = 'none';
+                document.querySelector('.submit-btn').style.display = 'none';
+                document.getElementById('result').textContent = `You scored ${score} out of ${problems.length}!`;
+            }
         }
 
         window.onload = displayProblem;
     </script>
-    <script src="ecdspeak.js"></script>
 </body>
 </html>
